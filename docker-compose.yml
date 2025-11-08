@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./anonchat-backend
+    container_name: anonchat-backend
+    ports:
+      - "10000:10000"
+    environment:
+      - PORT=10000
+    restart: unless-stopped
+
+  frontend:
+    build: ./anonchat-frontend
+    container_name: anonchat-frontend
+    ports:
+      - "4173:4173"
+    environment:
+      - VITE_SIGNALING_URL=http://backend:10000
+    depends_on:
+      - backend
+    restart: unless-stopped
